@@ -4,7 +4,7 @@
     "description": "Census Survey Explorer that updates cards and allows users to filter through different surveys easily.",
     "main": "index.js",
     "scripts": {
-        "build": "parcel build index.html"
+        "build": "parcel build index.html --out-dir docs"
     },
     "repository": {
         "type": "git",
