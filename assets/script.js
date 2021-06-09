@@ -116,6 +116,7 @@ base("Filters")
 
             records.forEach(function(record) {
                 recordText = record.get("Filter")
+                if (!recordText) return
                 recordType = record.get("Type")
                 publish = record.get("Publish?")
                 var filter = recordText.replace(/\s/g, "").replace("/", "").toLowerCase()
@@ -171,6 +172,7 @@ base("Filters")
 
             records.forEach(function(record) {
                 recordText = record.get("Filter")
+                if (!recordText) return
                 recordType = record.get("Type")
                 publish = record.get("Publish?")
                 var filter = recordText.replace(/\s/g, "").replace("/", "").toLowerCase()
