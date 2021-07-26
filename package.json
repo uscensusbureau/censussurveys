@@ -4,7 +4,7 @@
     "description": "Census Survey Explorer that updates cards and allows users to filter through different surveys easily.",
     "main": "index.js",
     "scripts": {
-        "start": "parcel index.htmlnpm ",
+        "start": "parcel index.html",
         "build": "rm -rf docs && rm -rf dist && parcel build index.html --out-dir docs --no-source-maps --public-url ./"
     },
     "repository": {
