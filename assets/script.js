@@ -13,6 +13,27 @@ function renameFilters(text) {
   return text;
 }
 
+const modal = (title, content, id) => `
+<div class="modal fade" id="${id}" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">${title}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ${content}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+    </div>
+`;
 /**
  * Creates alphabetized survey cards on homepage
  * using Airtable API. For each card, writes the selected filters
@@ -54,7 +75,7 @@ base("Surveys")
         return [renameFilters(text), filter];
       }
 
-      records.forEach(function (record) {
+      records.forEach(function (record, idx) {
         // Card Title and Description
         title = record.get("Survey");
         link = record.get("Link");
@@ -62,7 +83,8 @@ base("Surveys")
 
         const short_text =
           (text.length > 250 &&
-            text.substring(0, 250) + `<a href=${link}>...more</a>`) ||
+            text.substring(0, 250) +
+              `<button class="modal-button" data-toggle="modal" data-target="#description${idx}">...more</button>`) ||
           text;
 
         // Creating filters and record text
@@ -73,12 +95,24 @@ base("Surveys")
 
         const short_subtopics =
           (subtopics[0].length > 50 &&
-            subtopics[0].substring(0, 50) + `<a href=${link}>...more</a>`) ||
+            subtopics[0].substring(0, 50) +
+              `<button class="modal-button" data-toggle="modal" data-target="#subtopics${idx}">...more</button>`) ||
           subtopics[0];
+
+        const subtopics_modal = modal(
+          title + " Subtopics",
+          subtopics[0],
+          `subtopics${idx}`
+        );
+        const description_modal = modal(
+          title + " Description",
+          text,
+          `description${idx}`
+        );
         // Creating parent card
         var $card = $("<div/>", {
           class:
-            "card mb-3 " +
+            "col card mb-3 " +
             frequencies[1] +
             " " +
             geos[1] +
@@ -89,6 +123,8 @@ base("Surveys")
             " ",
         });
 
+        //$card.append(subtopics_modal);
+
         // Creating card body
         var $cardBody = $("<div/>", {
           class: "card-body",
@@ -96,7 +132,7 @@ base("Surveys")
 
         // Creating card dividers
         var $cardDividers = $("<ul/>", {
-          class: "list-group list-group-flush",
+          class: "list-group",
         });
 
         // Appending card and card body with text and title
@@ -108,7 +144,10 @@ base("Surveys")
             " →</a></h5>"
         );
         $cardBody.append("<p class='card-text'>" + short_text + "</p>");
-        $card.append($cardBody);
+        $card
+          .append($cardBody)
+          .append(subtopics_modal)
+          .append(description_modal);
 
         // Appending card dividers with filters information
         $card.append($cardDividers);
@@ -136,12 +175,13 @@ base("Surveys")
             short_subtopics +
             "&nbsp;</li>"
         );
-        var $cardCol = $("<div/>", {
-          class: "col",
-        });
-        $cardCol.append($card);
+        //var $cardCol = $("<div/>", {
+        //  class: "col",
+        //});
+        //$cardCol.append($card);
         // Appending to the home page #cards
-        $("#cards").append($cardCol);
+        //$("#cards").append($cardCol);
+        $("#cards").append($card);
       });
 
       // To fetch the next page of records, call `fetchNextPage`.
