@@ -31,7 +31,7 @@ const modal = (title, content, id) => `
         </div>
       </div>
     </div>
-    </div>
+</div>
 `;
 /**
  * Creates alphabetized survey cards on homepage
@@ -79,11 +79,12 @@ base("Surveys")
         title = record.get("Survey");
         link = record.get("Link");
         text = record.get("Description");
+        const id = title.split(" ").join("-");
 
         const short_text =
           (text.length > 250 &&
             text.substring(0, 250) +
-              `<button class="modal-button" data-toggle="modal" data-target="#description${idx}">...more</button>`) ||
+              `<button class="modal-button" data-toggle="modal" data-target="#d${id}">...more</button>`) ||
           text;
 
         // Creating filters and record text
@@ -95,19 +96,15 @@ base("Surveys")
         const short_subtopics =
           (subtopics[0].length > 50 &&
             subtopics[0].substring(0, 50) +
-              `<button class="modal-button" data-toggle="modal" data-target="#subtopics${idx}">...more</button>`) ||
+              `<button class="modal-button" data-toggle="modal" data-target="#s${id}">...more</button>`) ||
           subtopics[0];
 
         const subtopics_modal = modal(
           title + " Subtopics",
           subtopics[0],
-          `subtopics${idx}`
+          `s${id}`
         );
-        const description_modal = modal(
-          title + " Description",
-          text,
-          `description${idx}`
-        );
+        const description_modal = modal(title + " Description", text, `d${id}`);
         // Creating parent card
         var $card = $("<div/>", {
           class:
