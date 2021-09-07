@@ -85,26 +85,50 @@ base("Surveys")
 
       records.forEach(function (record, idx) {
         // Card Title and Description
-        title = record.get("Survey");
-        link = record.get("Link");
-        text = record.get("Description");
+        const title = record.get("Survey");
+        const link = record.get("Link");
+        const text = record.get("Description");
         const id = title.split(" ").join("-");
 
+        // Creating filters and record text
+        const frequencies = createFilters("Frequency", record);
+        const geos = createFilters("Geography", record);
+        const topics = createFilters("Topic", record);
+        const subtopics = createFilters("Subtopics", record);
+
+        const text_substring = text.substring(0, 250);
+        const subtopics_substring = subtopics[0].substring(0, 50);
+
+        const [t_bo, t_bc] = [
+          text_substring.match(/<b>/g) || [],
+          text_substring.match(/<\/b>/g) || [],
+        ];
+
+        const [s_bo, s_bc] = [
+          subtopics_substring.match(/<b>/g) || [],
+          subtopics_substring.match(/<\/b>/g) || [],
+        ];
+
+        const txt_sub =
+          Math.abs(t_bo.length - t_bc.length) === 1
+            ? text_substring + "</b>"
+            : text_substring;
+
+        const sub_sub =
+          Math.abs(s_bo.length - s_bc.length) === 1
+            ? subtopics_substring + "</b>"
+            : subtopics_substring;
+
+        //console.log({ t_bo, t_bc });
         const short_text =
           (text.length > 250 &&
-            text.substring(0, 250) +
+            txt_sub +
               `<button class="modal-button" data-toggle="modal" data-target="#m${id}">...more</button>`) ||
           text;
 
-        // Creating filters and record text
-        frequencies = createFilters("Frequency", record);
-        geos = createFilters("Geography", record);
-        topics = createFilters("Topic", record);
-        subtopics = createFilters("Subtopics", record);
-
         const short_subtopics =
           (subtopics[0].length > 50 &&
-            subtopics[0].substring(0, 50) +
+            sub_sub +
               `<button class="modal-button" data-toggle="modal" data-target="#m${id}">...more</button>`) ||
           subtopics[0];
 
