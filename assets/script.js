@@ -13,18 +13,27 @@ function renameFilters(text) {
   return text;
 }
 
-const modal = (title, content, id) => `
+const modal = ({ title, description, freqs, geos, topics, subs, id, href }) => `
 <div class="modal fade" id="${id}" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">${title}</h5>
+          <h5 class="modal-title" id="exampleModalLabel"><a href="${href}">${title} →</a></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          ${content}
+          <h4>Description</h4>
+            ${description}
+          <h4 style="margin-top: 16px;">Frequencies</h4>
+            ${freqs}
+          <h4 style="margin-top: 16px;">Geographies</h4>
+            ${geos}
+          <h4 style="margin-top: 16px;">Topics</h4>
+            ${topics}
+          <h4 style="margin-top: 16px;">Subtopics</h4>
+            ${subs}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -84,7 +93,7 @@ base("Surveys")
         const short_text =
           (text.length > 250 &&
             text.substring(0, 250) +
-              `<button class="modal-button" data-toggle="modal" data-target="#d${id}">...more</button>`) ||
+              `<button class="modal-button" data-toggle="modal" data-target="#m${id}">...more</button>`) ||
           text;
 
         // Creating filters and record text
@@ -96,15 +105,20 @@ base("Surveys")
         const short_subtopics =
           (subtopics[0].length > 50 &&
             subtopics[0].substring(0, 50) +
-              `<button class="modal-button" data-toggle="modal" data-target="#s${id}">...more</button>`) ||
+              `<button class="modal-button" data-toggle="modal" data-target="#m${id}">...more</button>`) ||
           subtopics[0];
 
-        const subtopics_modal = modal(
-          title + " Subtopics",
-          subtopics[0],
-          `s${id}`
-        );
-        const description_modal = modal(title + " Description", text, `d${id}`);
+        const this_modal = modal({
+          title,
+          topics: topics[0],
+          freqs: frequencies[0],
+          geos: geos[0],
+          subs: subtopics[0],
+          description: text,
+          id: `m${id}`,
+          href: link,
+        });
+
         // Creating parent card
         var $card = $("<div/>", {
           class:
@@ -140,10 +154,8 @@ base("Surveys")
             " →</a></h5>"
         );
         $cardBody.append("<p class='card-text'>" + short_text + "</p>");
-        $card
-          .append($cardBody)
-          .append(subtopics_modal)
-          .append(description_modal);
+        $card.append($cardBody).append(this_modal);
+        //  .append(description_modal);
 
         // Appending card dividers with filters information
         $card.append($cardDividers);

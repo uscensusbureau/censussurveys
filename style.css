@@ -69,6 +69,7 @@ div.scrollmenu {
   border: 1px #4093a5 solid !important;
   background-color: #4093a5 !important;
   height: 40px;
+  /*font-weight: bold;*/
 }
 
 .btn-primary:hover,
@@ -90,6 +91,10 @@ active,
 focus {
   background: #4093a580 !important;
   transition: 0.3s;
+}
+
+.btn {
+  font-weight: 800;
 }
 
 #quicksearch {
@@ -149,6 +154,7 @@ focus {
   border: none;
   background-color: transparent;
   cursor: pointer;
+  text-decoration: underline;
 }
 .card a {
   color: #112e50 !important;
@@ -169,13 +175,15 @@ focus {
 }
 
 .alert-primary {
-  background-color: #4093a530 !important;
-  color: #4093a5 !important;
+  background-color: #e5f4f6 !important;
+  color: #008392 !important;
   border: 1px #4093a5 solid !important;
 }
 
 #filterCards {
   display: inline;
+  /*font-size: 16px;*/
+  /*font-weight: bold;*/
 }
 
 @media (max-width: 767.98px) {
