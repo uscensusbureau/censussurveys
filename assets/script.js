@@ -1,5 +1,5 @@
 var Airtable = require("airtable");
-var base = new Airtable({ apiKey: "keyWfSmHAolRQJxTk" }).base(
+var base = new Airtable({ apiKey: "keyJGlQfkHTm8nDv0" }).base(
   "appAzdZwdzJzHt494"
 );
 
