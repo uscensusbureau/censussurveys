@@ -1,5 +1,12 @@
 # Census Survey Explorer
 
+## Status
+ **This repository has been archived and is no longer maintained.**
+ 
+ The code is provided for historical reference and may contain unpatched or unknown vulnerabilities.
+ 
+ It should not be used in production systems.
+
 ## Description
 
 Discover U.S. Census Bureau surveys or censuses by filtering and searching by geography, frequency, topics, and subtopics. Created for the U.S. Census Bureau as a tool that allows users to filter, search, and locate surveys easily as part of my extension for the 2020 Civic Digital Fellowship.
